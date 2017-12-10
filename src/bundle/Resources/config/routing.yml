@@ -1,0 +1,5 @@
+edgar.eztfa.menu:
+    path: /user/profile/tfa
+    defaults:
+        _controller: 'EdgarEzTFABundle:TFA:menu'
+
