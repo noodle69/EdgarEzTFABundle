@@ -2,7 +2,7 @@
   "name": "edgar/ez-tfa-bundle",
   "license": "GPL-2.0",
   "type": "ezplatform-bundle",
-  "description": "eZ Platform",
+  "description": "eZ Platform Two Factor Authentication",
   "minimum-stability": "dev",
   "authors": [
     {
