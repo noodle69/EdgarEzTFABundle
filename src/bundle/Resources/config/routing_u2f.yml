@@ -1,0 +1,15 @@
+tfa_u2f_register_form:
+    path: /register
+    methods: [GET, POST]
+    defaults: { _controller: 'EdgarEzTFABundle:U2FRegister:register' }
+
+tfa_u2f_remove:
+    path: /remove/{id}
+    defaults: { _controller: 'EdgarEzTFABundle:U2FRegister:remove' }
+    requirements:
+        id: "\\d+"
+
+tfa_u2f_auth_form:
+    path: /auth
+    methods: [GET, POST]
+    defaults: { _controller: 'EdgarEzTFABundle:U2FAuth:auth' }

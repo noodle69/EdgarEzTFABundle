@@ -7,10 +7,6 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-/**
- * Class ProviderPass
- * @package Smile\EzTFABundle\DependencyInjection\Compiler
- */
 class ProviderPass implements CompilerPassInterface
 {
     /**
@@ -29,10 +25,10 @@ class ProviderPass implements CompilerPassInterface
 
         foreach ($taggedServices as $id => $tags) {
             foreach ($tags as $attributes) {
-                $definition->addMethodCall('addProvider', array(
+                $definition->addMethodCall('addProvider', [
                     new Reference($id),
-                    $attributes['alias']
-                ));
+                    $attributes['alias'],
+                ]);
             }
         }
     }

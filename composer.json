@@ -22,7 +22,11 @@
     "php": ">=7.1",
     "ezsystems/ezpublish-kernel": "^7.0@dev",
     "ezsystems/ezplatform-admin-ui": "^1.0@dev",
-    "edgar/ez-uiprofile-bundle": "~1.0"
+    "edgar/ez-uiprofile-bundle": "~1.0",
+    "ovh/ovh": "~2.0",
+    "doctrine/orm": "~2.5",
+    "yubico/u2flib-server": "~1.0",
+    "misd/phone-number-bundle": "~1.2"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "~2.7.1",

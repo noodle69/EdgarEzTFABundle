@@ -2,7 +2,7 @@
 
 namespace Edgar\EzTFA\Provider;
 
-use Smile\EzTFABundle\Repository\TFARepository;
+use Edgar\EzTFA\Repository\EdgarEzTFARepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Translation\Translator;
@@ -51,8 +51,9 @@ class AbstractProvider
         $semanticPathinfo = $request->attributes->get('semanticPathinfo') ?: '/';
         $semanticPathinfo = rtrim($semanticPathinfo, '/');
         $uri = $request->getUri();
-        if (!$semanticPathinfo)
+        if (!$semanticPathinfo) {
             return $uri;
+        }
 
         return substr($uri, 0, -strlen($semanticPathinfo));
     }
@@ -66,7 +67,7 @@ class AbstractProvider
      * @return null
      */
     public function register(
-        TFARepository $tfaRepository,
+        EdgarEzTFARepository $tfaRepository,
         $userId, $provider
     ) {
         $tfaRepository->setProvider($userId, $provider);

@@ -18,8 +18,14 @@ class ConfigureMenuListener implements TranslationContainerInterface
     {
         $menu = $event->getMenu();
 
-        $cronsMenu = $menu->getChild(LeftSidebarBuilder::ITEM__PROFILE);
-        $cronsMenu->getParent()->addChild(self::ITEM_PROFILE_TFA, ['route' => 'edgar.eztfa.menu']);
+        $cronsMenu = $menu->getChild(LeftSidebarBuilder::ITEM__PASSWORD);
+        $cronsMenu->getParent()->addChild(
+            self::ITEM_PROFILE_TFA,
+            [
+                'route' => 'edgar.eztfa.menu',
+                'extras' => ['icon' => 'lock'],
+            ]
+        );
     }
 
     /**
@@ -28,7 +34,7 @@ class ConfigureMenuListener implements TranslationContainerInterface
     public static function getTranslationMessages(): array
     {
         return [
-            (new Message(self::ITEM_PROFILE_TFA, 'messages'))->setDesc('TFA'),
+            (new Message(self::ITEM_PROFILE_TFA, 'messages'))->setDesc('Two Factor Authentication'),
         ];
     }
 }

@@ -1,0 +1,10 @@
+tfa_sms_register_form:
+    path: /register
+    methods: [GET, POST]
+    defaults: { _controller: 'EdgarEzTFABundle:SMSRegister:register' }
+
+tfa_sms_auth_form:
+    path: /auth
+    methods: [GET, POST]
+    defaults: { _controller: 'EdgarEzTFABundle:SMSAuth:auth' }
+

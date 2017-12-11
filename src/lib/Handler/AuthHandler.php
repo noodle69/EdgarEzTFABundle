@@ -5,8 +5,8 @@ namespace Edgar\EzTFA\Handler;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Edgar\EzTFA\Provider\AbstractProvider;
 use Edgar\EzTFA\Provider\ProviderInterface;
-use Edgar\EzTFABundle\Entity\TFA;
-use Edgar\EzTFA\Repository\TFARepository;
+use Edgar\EzTFABundle\Entity\EdgarEzTFA;
+use Edgar\EzTFA\Repository\EdgarEzTFARepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
@@ -16,12 +16,12 @@ use Symfony\Component\Translation\Translator;
 class AuthHandler extends AbstractProvider implements ProviderInterface
 {
     /** @var ProviderInterface[] $providers */
-    private $providers = array();
+    private $providers = [];
 
     /** @var TokenStorage $tokenStorage */
     protected $tokenStorage;
 
-    /** @var TFARepository $tfaRepository */
+    /** @var EdgarEzTFARepository $tfaRepository */
     protected $tfaRepository;
 
     protected $providersConfig;
@@ -43,7 +43,7 @@ class AuthHandler extends AbstractProvider implements ProviderInterface
         $this->tokenStorage = $tokenStorage;
 
         $entityManager = $doctrineRegistry->getManager();
-        $this->tfaRepository = $entityManager->getRepository('SmileEzTFABundle:TFA');
+        $this->tfaRepository = $entityManager->getRepository(EdgarEzTFA::class);
 
         $this->providersConfig = $providersConfig;
     }
@@ -119,7 +119,7 @@ class AuthHandler extends AbstractProvider implements ProviderInterface
         $apiUser = $user->getAPIUser();
 
 
-        /** @var TFA $userProvider */
+        /** @var EdgarEzTFA $userProvider */
         $userProvider = $this->tfaRepository->findOneByUserId($apiUser->id);
 
         return ($userProvider) ? $userProvider->getProvider() : false;

@@ -2,13 +2,14 @@
 
 namespace Edgar\EzTFA\Repository;
 
-use Edgar\EzTFABundle\Entity\TFA;
+use Edgar\EzTFABundle\Entity\EdgarEzTFA;
+use Doctrine\ORM\EntityRepository;
 
-class TFARepository extends \Doctrine\ORM\EntityRepository
+class EdgarEzTFARepository extends EntityRepository
 {
-    public function setProvider($userId, $provider)
+    public function setProvider(int $userId, string $provider)
     {
-        $tfa = new TFA();
+        $tfa = new EdgarEzTFA();
         $tfa->setUserId($userId);
         $tfa->setProvider($provider);
 
@@ -16,7 +17,7 @@ class TFARepository extends \Doctrine\ORM\EntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function remove(TFA $tfaProvider)
+    public function remove(EdgarEzTFA $tfaProvider)
     {
         $this->getEntityManager()->remove($tfaProvider);
         $this->getEntityManager()->flush();

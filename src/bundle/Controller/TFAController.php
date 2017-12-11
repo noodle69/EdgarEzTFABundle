@@ -10,7 +10,7 @@ class TFAController extends Controller
 {
     public function menuAction(Request $request): Response
     {
-        return $this->render('@EdgarEzTFA/profile/tfa/view.html.twig', [
+        return $this->render('EdgarEzTFABundle:profile:tfa/view.html.twig', [
         ]);
     }
 }

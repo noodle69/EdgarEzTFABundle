@@ -1,0 +1,4 @@
+tfa_email_auth_form:
+    path: /auth
+    methods: [GET, POST]
+    defaults: { _controller: 'EdgarEzTFABundle:EmailAuth:auth' }

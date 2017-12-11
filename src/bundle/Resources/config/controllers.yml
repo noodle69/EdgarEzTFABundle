@@ -11,3 +11,39 @@ services:
         calls:
             - [setContainer, ["@service_container"]]
             - [performAccessCheck, []]
+
+    Edgar\EzTFABundle\Controller\EmailAuthController:
+        public: true
+        tags: ['controller.service_arguments']
+        arguments:
+            $providers: $providers;smile_ez_tfa$
+        calls:
+            - [setContainer, ["@service_container"]]
+            - [performAccessCheck, []]
+
+    Edgar\EzTFABundle\Controller\SMSAuthController:
+        public: true
+        tags: ['controller.service_arguments']
+        arguments:
+            $providers: $providers;smile_ez_tfa$
+        calls:
+            - [setContainer, ["@service_container"]]
+            - [performAccessCheck, []]
+
+    Edgar\EzTFABundle\Controller\SMSRegisterController:
+        public: true
+        tags: ['controller.service_arguments']
+        arguments:
+            $provider: "Edgar\\EzTFABundle\\Provider\\SMS\\SMSProvider"
+        calls:
+            - [setContainer, ["@service_container"]]
+            - [performAccessCheck, []]
+
+    Edgar\EzTFABundle\Controller\U2FRegisterController:
+        public: true
+        tags: ['controller.service_arguments']
+        arguments:
+            $provider: "Edgar\\EzTFABundle\\Provider\\U2F\\U2FProvider"
+        calls:
+            - [setContainer, ["@service_container"]]
+            - [performAccessCheck, []]

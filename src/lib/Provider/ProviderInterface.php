@@ -2,15 +2,10 @@
 
 namespace Edgar\EzTFA\Provider;
 
-use Smile\EzTFABundle\Repository\TFARepository;
+use Edgar\EzTFA\Repository\EdgarEzTFARepository;
 use Symfony\Component\HttpFoundation\Request;
 use eZ\Publish\API\Repository\Values\User\User as APIUser;
 
-/**
- * Interface ProviderInterface
- *
- * @package Smile\EzTFABundle\Provider
- */
 interface ProviderInterface
 {
     public function getIdentifier();
@@ -23,7 +18,7 @@ interface ProviderInterface
 
     public function requestAuthCode(Request $request);
 
-    public function register(TFARepository $tfaRepository, $userId, $provider);
+    public function register(EdgarEzTFARepository $tfaRepository, $userId, $provider);
 
     public function canBeMultiple();
 

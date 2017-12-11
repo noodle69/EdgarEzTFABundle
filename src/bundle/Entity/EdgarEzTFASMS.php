@@ -2,23 +2,35 @@
 
 namespace Edgar\EzTFABundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * TFASMS
+ * EdgarEzTFASMS
+ *
+ * @ORM\Entity(repositoryClass="Edgar\EzTFA\Repository\EdgarEzTFASMSRepository")
+ * @ORM\Table(name="edgar_ez_tfa_sms")
  */
-class TFASMS
+class EdgarEzTFASMS
 {
     /**
      * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
      */
     private $id;
 
     /**
      * @var int
+     *
+     * @ORM\Column(name="user_id", type="integer", nullable=false)
      */
     private $userId;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="phone", type="string", length=255, nullable=false)
      */
     private $phone;
 
@@ -28,7 +40,7 @@ class TFASMS
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -38,9 +50,9 @@ class TFASMS
      *
      * @param integer $userId
      *
-     * @return TFASMS
+     * @return EdgarEzTFASMS
      */
-    public function setUserId($userId)
+    public function setUserId(int $userId): self
     {
         $this->userId = $userId;
 
@@ -52,7 +64,7 @@ class TFASMS
      *
      * @return int
      */
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->userId;
     }
@@ -62,9 +74,9 @@ class TFASMS
      *
      * @param string $phone
      *
-     * @return TFASMS
+     * @return EdgarEzTFASMS
      */
-    public function setPhone($phone)
+    public function setPhone(string $phone): self
     {
         $this->phone = $phone;
 
@@ -76,7 +88,7 @@ class TFASMS
      *
      * @return string
      */
-    public function getPhone()
+    public function getPhone(): string
     {
         return $this->phone;
     }

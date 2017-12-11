@@ -2,43 +2,63 @@
 
 namespace Edgar\EzTFABundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
- * TFAU2F
+ * EdgarEzTFAU2F
+ *
+ * @ORM\Entity(repositoryClass="Edgar\EzTFA\Repository\EdgarEzTFAU2FRepository")
+ * @ORM\Table(name="edgar_ez_tfa_u2f")
  */
-class TFAU2F
+class EdgarEzTFAU2F
 {
     /**
      * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
      */
     private $id;
 
     /**
      * @var int
+     *
+     * @ORM\Column(name="user_id", type="integer", nullable=false)
      */
     private $userId;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="key_name", type="string", length=255, nullable=false)
      */
     private $keyName;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="key_handle", type="string", length=255, nullable=false)
      */
     private $keyHandle;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="public_key", type="string", length=255, nullable=false)
      */
     private $publicKey;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="certificate", type="text", nullable=false)
      */
     private $certificate;
 
     /**
      * @var int
+     *
+     * @ORM\Column(name="counter", type="integer", nullable=false)
      */
     private $counter;
 
@@ -48,7 +68,7 @@ class TFAU2F
      *
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -58,9 +78,9 @@ class TFAU2F
      *
      * @param integer $userId
      *
-     * @return TFAU2F
+     * @return EdgarEzTFAU2F
      */
-    public function setUserId($userId)
+    public function setUserId(int $userId): self
     {
         $this->userId = $userId;
 
@@ -72,7 +92,7 @@ class TFAU2F
      *
      * @return int
      */
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->userId;
     }
@@ -82,9 +102,9 @@ class TFAU2F
      *
      * @param string $keyName
      *
-     * @return TFAU2F
+     * @return EdgarEzTFAU2F
      */
-    public function setKeyName($keyName)
+    public function setKeyName(string $keyName): self
     {
         $this->keyName = $keyName;
 
@@ -96,7 +116,7 @@ class TFAU2F
      *
      * @return string
      */
-    public function getKeyName()
+    public function getKeyName(): string
     {
         return $this->keyName;
     }
@@ -106,9 +126,9 @@ class TFAU2F
      *
      * @param string $keyHandle
      *
-     * @return TFAU2F
+     * @return EdgarEzTFAU2F
      */
-    public function setKeyHandle($keyHandle)
+    public function setKeyHandle(string $keyHandle): self
     {
         $this->keyHandle = $keyHandle;
 
@@ -120,7 +140,7 @@ class TFAU2F
      *
      * @return string
      */
-    public function getKeyHandle()
+    public function getKeyHandle(): string
     {
         return $this->keyHandle;
     }
@@ -130,9 +150,9 @@ class TFAU2F
      *
      * @param string $publicKey
      *
-     * @return TFAU2F
+     * @return EdgarEzTFAU2F
      */
-    public function setPublicKey($publicKey)
+    public function setPublicKey(string $publicKey): self
     {
         $this->publicKey = $publicKey;
 
@@ -144,7 +164,7 @@ class TFAU2F
      *
      * @return string
      */
-    public function getPublicKey()
+    public function getPublicKey(): string
     {
         return $this->publicKey;
     }
@@ -154,9 +174,9 @@ class TFAU2F
      *
      * @param string $certificate
      *
-     * @return TFAU2F
+     * @return EdgarEzTFAU2F
      */
-    public function setCertificate($certificate)
+    public function setCertificate(string $certificate): self
     {
         $this->certificate = $certificate;
 
@@ -168,7 +188,7 @@ class TFAU2F
      *
      * @return string
      */
-    public function getCertificate()
+    public function getCertificate(): string
     {
         return $this->certificate;
     }
@@ -178,9 +198,9 @@ class TFAU2F
      *
      * @param integer $counter
      *
-     * @return TFAU2F
+     * @return EdgarEzTFAU2F
      */
-    public function setCounter($counter)
+    public function setCounter(int $counter): self
     {
         $this->counter = $counter;
 
@@ -192,7 +212,7 @@ class TFAU2F
      *
      * @return int
      */
-    public function getCounter()
+    public function getCounter(): int
     {
         return $this->counter;
     }
