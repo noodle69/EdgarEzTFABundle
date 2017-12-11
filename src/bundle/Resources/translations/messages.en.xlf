@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="da7034b1e9dfcae3be012f79d9b1e36f8906ac9a" resname="Two Factor Authentication">
+        <source>Two Factor Authentication</source>
+        <target state="new">Two Factor Authentication</target>
+        <note>key: Two Factor Authentication</note>
+      </trans-unit>
+      <trans-unit id="8f1b08bb8d76ab4745de357e612e38603c63fdc4" resname="user__content__tfa">
+        <source>Two Factor Authentication</source>
+        <target>Two Factor Authentication</target>
+        <note>key: user__content__tfa</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
