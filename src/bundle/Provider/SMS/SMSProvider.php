@@ -7,16 +7,16 @@ use Edgar\EzTFA\Provider\ProviderInterface;
 use Edgar\EzTFA\Repository\EdgarEzTFARepository;
 use Edgar\EzTFA\Repository\EdgarEzTFASMSRepository;
 use Edgar\EzTFABundle\Entity\EdgarEzTFASMS;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Translation\Translator;
 use eZ\Publish\API\Repository\Values\User\User as APIUser;
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Symfony\Component\Routing\RouterInterface;
 
 class SMSProvider extends AbstractProvider implements ProviderInterface
 {
-    /** @var Router $router */
+    /** @var RouterInterface $router */
     protected $router;
 
     /** @var EdgarEzTFASMSRepository $tfaSMSRepository */
@@ -30,7 +30,7 @@ class SMSProvider extends AbstractProvider implements ProviderInterface
      * @param Translator $translator
      */
     public function __construct(
-        Router $router,
+        RouterInterface $router,
         Session $session,
         Translator $translator,
         Registry $doctrineRegistry

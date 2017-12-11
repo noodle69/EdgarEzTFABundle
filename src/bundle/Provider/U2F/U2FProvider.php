@@ -15,10 +15,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Translation\Translator;
+use Symfony\Component\Routing\RouterInterface;
 
 class U2FProvider extends AbstractProvider implements ProviderInterface
 {
-    /** @var Router $router */
+    /** @var RouterInterface $router */
     protected $router;
 
     /** @var TokenStorage $tokenStorage */
@@ -35,7 +36,7 @@ class U2FProvider extends AbstractProvider implements ProviderInterface
      * @param Translator $translator
      */
     public function __construct(
-        Router $router,
+        RouterInterface $router,
         Session $session,
         Translator $translator,
         TokenStorage $tokenStorage,

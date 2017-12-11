@@ -11,3 +11,18 @@ services:
         public: true
         tags:
           - { name: kernel.event_listener, event: edgar_ezuiprofile.menu_configure.profile_sidebar_left, method: onMenuConfigure }
+
+    Edgar\EzTFABundle\Provider\Email\EmailProvider:
+        public: true
+        tags:
+          - { name: edgar.tfa.provider, alias: email }
+
+    Edgar\EzTFABundle\Provider\SMS\SMSProvider:
+        public: true
+        tags:
+          - { name: edgar.tfa.provider, alias: sms }
+
+    Edgar\EzTFABundle\Provider\U2F\U2FProvider:
+        public: true
+        tags:
+          - { name: edgar.tfa.provider, alias: u2f }
