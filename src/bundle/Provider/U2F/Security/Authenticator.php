@@ -76,7 +76,7 @@ class Authenticator
      * @param User $user
      * @return array
      */
-    private function getUserKeys(User $user)
+    private function getUserKeys(User $user): array
     {
         $userKeys = [];
 

@@ -1,10 +1,32 @@
 {% extends "@EdgarEzUIProfile/profile/view.html.twig" %}
 
+{% trans_default_domain "edgareztfa" %}
+
 {% block subtitle %}
     {% set subtitle = 'Two Factor Authentication'|trans %}
     {{ parent() }}
 {% endblock %}
 
 {% block profilecontent %}
+    {% for providerId, provider in providers %}
+        {% if provider.selected %}
+            {{ provider.title }}
+            <p>
+                <a href="{{ path('tfa_reinitialize', {'provider': providerId}) }}">
+                    {% trans %}
+                        Reinitialize
+                    {% endtrans %}
+                </a>
+                <a href="{{ path('tfa_cancel', {'provider': providerId}) }}">
+                    {% trans %}
+                        Cacncel
+                    {% endtrans %}
+                </a>
+            </p>
+        {% else %}
+            <a href="{{ path('tfa_click', {'provider': providerId}) }}">{{ provider.title }}</a>
+        {% endif %}
+        <p>{{ provider.description }}</p>
+    {% endfor %}
 {% endblock %}
 

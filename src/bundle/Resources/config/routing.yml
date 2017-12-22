@@ -3,11 +3,6 @@ edgar.eztfa.menu:
     defaults:
         _controller: 'EdgarEzTFABundle:TFA:menu'
 
-tfa_list:
-    path: /list
-    methods: [GET]
-    defaults: { _controller: 'EdgarEzTFABundle:TFA:list' }
-
 tfa_click:
     path: /click/{provider}
     methods: [GET]
@@ -18,7 +13,7 @@ tfa_click:
 tfa_registered:
     path: /registered/{provider}
     methods: [GET]
-    defaults: { _controller: 'EdgarEzTFABundle:TFA:degistered' }
+    defaults: { _controller: 'EdgarEzTFABundle:TFA:registered' }
     requirements:
         provider: "[a-z0-9]+"
 

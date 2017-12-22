@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 
-class TFAListener implements EventSubscriberInterface
+class TFAListener
 {
     /** @var TokenStorage $tokenStorage */
     protected $tokenStorage;
@@ -39,18 +39,6 @@ class TFAListener implements EventSubscriberInterface
     }
 
     /**
-     * Subscribe to Kernel content event
-     *
-     * @return array
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            KernelEvents::CONTROLLER => ['onRequest', 100],
-        ];
-    }
-
-    /**
      * Handle event
      *
      * @param FilterControllerEvent $event
@@ -62,8 +50,9 @@ class TFAListener implements EventSubscriberInterface
             return;
         }
 
-        if (strpos($request->getUri(), '/_tfa/registered/') !== false)
+        if (strpos($request->getUri(), '/tfa/') !== false) {
             return;
+        }
 
         $providers = $this->authHandler->getProviders();
         foreach ($providers as $key => $provider) {

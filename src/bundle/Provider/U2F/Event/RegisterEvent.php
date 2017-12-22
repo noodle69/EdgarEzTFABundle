@@ -4,12 +4,13 @@ namespace Edgar\EzTFABundle\Provider\U2F\Event;
 
 use eZ\Publish\Core\MVC\Symfony\Security\User;
 use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\HttpFoundation\Response;
+use u2flib_server\Registration;
 
 class RegisterEvent extends Event
 {
-    /**
-     * @var array
-     **/
+    const TFA_U2F_REGISTER = 'edgarez_tfa_u2f.register';
+
     protected $registration;
 
     /**
@@ -34,19 +35,14 @@ class RegisterEvent extends Event
      * @param $user
      * @param $name
      */
-    public function __construct($registration, $user, $name)
+    public function __construct(Registration $registration, User $user, string $name)
     {
         $this->registration = $registration;
         $this->user = $user;
         $this->keyName = $name;
     }
 
-    /**
-     * getRegistration
-     *
-     * @return mixed
-     */
-    public function getRegistration()
+    public function getRegistration(): Registration
     {
         return $this->registration;
     }
@@ -56,7 +52,7 @@ class RegisterEvent extends Event
      *
      * @return mixed
      */
-    public function getUser()
+    public function getUser(): User
     {
         return $this->user;
     }
@@ -68,7 +64,7 @@ class RegisterEvent extends Event
      *
      * @return $this
      */
-    public function setUser($user)
+    public function setUser(User $user): self
     {
         $this->user = $user;
 
@@ -80,7 +76,7 @@ class RegisterEvent extends Event
      *
      * @return mixed
      */
-    public function getResponse()
+    public function getResponse(): Response
     {
         return $this->response;
     }
@@ -92,7 +88,7 @@ class RegisterEvent extends Event
      *
      * @return $this
      */
-    public function setResponse($response)
+    public function setResponse(Response $response): self
     {
         $this->response = $response;
 
@@ -104,7 +100,7 @@ class RegisterEvent extends Event
      *
      * @return mixed
      */
-    public function getKeyName()
+    public function getKeyName(): string
     {
         return $this->keyName;
     }
@@ -116,7 +112,7 @@ class RegisterEvent extends Event
      *
      * @return $this
      */
-    public function setKeyName($keyName)
+    public function setKeyName(string $keyName): self
     {
         $this->keyName = $keyName;
 

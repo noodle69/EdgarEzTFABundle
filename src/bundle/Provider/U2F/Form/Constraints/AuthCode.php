@@ -8,6 +8,6 @@ class AuthCode extends Constraint
 {
     public function validatedBy()
     {
-        return 'edgareztfa.u2f.auth.contraint';
+        return AuthCodeValidator::class;
     }
 }

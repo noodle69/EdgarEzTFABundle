@@ -1,20 +1,18 @@
-{% extends layout %}
+{% extends "@EdgarEzTFA/profile/tfa/view.html.twig" %}
 
-{% trans_default_domain "edgareztfa" %}
-
-{% block content %}
+{% block profilecontent %}
     {% for providerId, provider in providersList %}
         {% if provider.selected %}
             {{ provider.title }}
             <p>
                 <a href="{{ path('tfa_reinitialize', {'provider': providerId}) }}">
                     {% trans %}
-                    Reinitialize
+                        Reinitialize
                     {% endtrans %}
                 </a>
                 <a href="{{ path('tfa_cancel', {'provider': providerId}) }}">
                     {% trans %}
-                    Cacncel
+                        Cacncel
                     {% endtrans %}
                 </a>
             </p>
@@ -24,3 +22,5 @@
         <p>{{ provider.description }}</p>
     {% endfor %}
 {% endblock %}
+
+

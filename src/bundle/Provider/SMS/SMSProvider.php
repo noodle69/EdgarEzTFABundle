@@ -16,9 +16,6 @@ use Symfony\Component\Routing\RouterInterface;
 
 class SMSProvider extends AbstractProvider implements ProviderInterface
 {
-    /** @var RouterInterface $router */
-    protected $router;
-
     /** @var EdgarEzTFASMSRepository $tfaSMSRepository */
     protected $tfaSMSRepository;
 
@@ -30,13 +27,12 @@ class SMSProvider extends AbstractProvider implements ProviderInterface
      * @param Translator $translator
      */
     public function __construct(
-        RouterInterface $router,
         Session $session,
         Translator $translator,
+        RouterInterface $router,
         Registry $doctrineRegistry
     ) {
-        parent::__construct($session, $translator);
-        $this->router = $router;
+        parent::__construct($session, $translator, $router);
 
         $entityManager = $doctrineRegistry->getManager();
         /** @var EdgarEzTFASMSRepository tfaSMSRepository */
@@ -49,7 +45,7 @@ class SMSProvider extends AbstractProvider implements ProviderInterface
      * @param Request $request
      * @return string
      */
-    public function requestAuthCode(Request $request)
+    public function requestAuthCode(Request $request): string
     {
         $authCode = random_int(100000, 999999);
         $this->session->set('tfa_authcode', $authCode);
@@ -63,26 +59,26 @@ class SMSProvider extends AbstractProvider implements ProviderInterface
     public function register(
         EdgarEzTFARepository $tfaRepository,
         $userId, $provider
-    ) {
+    ): string {
         return $this->router->generate('tfa_sms_register_form');
     }
 
-    public function getIdentifier()
+    public function getIdentifier(): ?string
     {
         return 'sms';
     }
 
-    public function getName()
+    public function getName(): ?string
     {
         return $this->translator->trans('sms.provider.name', [], 'edgareztfa');
     }
 
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->translator->trans('sms.provider.description', [], 'edgareztfa');
     }
 
-    public function purge(APIUser $user)
+    public function purge(APIUser $user): void
     {
         $this->tfaSMSRepository->purge($user);
     }

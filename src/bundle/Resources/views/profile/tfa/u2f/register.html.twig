@@ -1,13 +1,10 @@
-{% extends layout %}
+{% extends "@EdgarEzTFA/profile/tfa/view.html.twig" %}
 
-{% trans_default_domain "edgareztfa" %}
-
-{% block content %}
-
+{% block profilecontent %}
     {{ form_start(form, {'action': actionUrl, "attr": {"data-request": registrationRequest|raw,"data-action": "reg", "id": "u2fForm", "class": "pure-form pure-form-aligned"}}) }}
-
         <div id="u2fkeyname">
             {{ form_widget(form.keyName, { 'id': 'keyName' }) }}
+            {{ form_widget(form._auth_code, { 'id': '_auth_code' }) }}
             {{ form_widget(form.register) }}
 
             <ul>
@@ -26,7 +23,14 @@
         </div>
         {{ form_widget(form._auth_code, { 'id': '_auth_code' }) }}
         <div id="u2fError" style="display: none;"></div>
-
     {{ form_end(form) }}
+{% endblock %}
 
+{% block javascripts %}
+    {% javascripts
+        '@EdgarEzTFABundle/Resources/public/js/auth.js'
+        '@EdgarEzTFABundle/Resources/public/js/u2f-api.js'
+    %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}

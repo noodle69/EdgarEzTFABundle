@@ -9,6 +9,7 @@ use Edgar\EzTFABundle\Entity\EdgarEzTFA;
 use Edgar\EzTFA\Repository\EdgarEzTFARepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use eZ\Publish\Core\MVC\Symfony\Security\User;
 use Symfony\Component\Translation\Translator;
@@ -24,6 +25,9 @@ class AuthHandler extends AbstractProvider implements ProviderInterface
     /** @var EdgarEzTFARepository $tfaRepository */
     protected $tfaRepository;
 
+    /** @var RouterInterface */
+    protected $router;
+
     protected $providersConfig;
 
     /**
@@ -37,9 +41,10 @@ class AuthHandler extends AbstractProvider implements ProviderInterface
         Translator $translator,
         TokenStorage $tokenStorage,
         Registry $doctrineRegistry,
+        RouterInterface $router,
         $providersConfig
     ) {
-        parent::__construct($session, $translator);
+        parent::__construct($session, $translator, $router);
         $this->tokenStorage = $tokenStorage;
 
         $entityManager = $doctrineRegistry->getManager();
@@ -71,7 +76,7 @@ class AuthHandler extends AbstractProvider implements ProviderInterface
      *
      * @return ProviderInterface[]
      */
-    public function getProviders()
+    public function getProviders(): array
     {
         return $this->providers;
     }
@@ -81,7 +86,7 @@ class AuthHandler extends AbstractProvider implements ProviderInterface
      *
      * @return bool
      */
-    public function isAuthenticated()
+    public function isAuthenticated(): bool
     {
         $providerAlias = $this->getProviderAlias();
         if (!isset($this->providers[$providerAlias]))
@@ -96,7 +101,7 @@ class AuthHandler extends AbstractProvider implements ProviderInterface
      * @param Request $request
      * @return bool
      */
-    public function requestAuthCode(Request $request)
+    public function requestAuthCode(Request $request): string
     {
         $providerAlias = $this->getProviderAlias();
         if (!isset($this->providers[$providerAlias]))
@@ -105,19 +110,15 @@ class AuthHandler extends AbstractProvider implements ProviderInterface
         return $this->providers[$providerAlias]->requestAuthCode($request);
     }
 
-    /**
-     * Return user TFA Provider if user has activate a TFA Provider
-     *
-     * @return bool|string
-     */
-    protected function getProviderAlias()
+    protected function getProviderAlias(): ?string
     {
         /** @var User $user */
         $user = $this->tokenStorage->getToken()->getUser();
-        if (!($user instanceof User))
-            return false;
-        $apiUser = $user->getAPIUser();
+        if (!($user instanceof User)) {
+            return null;
+        }
 
+        $apiUser = $user->getAPIUser();
 
         /** @var EdgarEzTFA $userProvider */
         $userProvider = $this->tfaRepository->findOneByUserId($apiUser->id);

@@ -7,12 +7,11 @@ use Edgar\EzTFA\Repository\EdgarEzTFARepository;
 use Edgar\EzTFA\Repository\EdgarEzTFAU2FRepository;
 use Edgar\EzTFABundle\Entity\EdgarEzTFAU2F;
 use eZ\Publish\Core\MVC\Symfony\Security\User;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 
-class RegistrationListener implements EventSubscriberInterface
+class RegistrationListener
 {
     /** @var EdgarEzTFAU2FRepository $tfaU2FRepository */
     protected $tfaU2FRepository;
@@ -20,7 +19,7 @@ class RegistrationListener implements EventSubscriberInterface
     /** @var EdgarEzTFARepository $tfaRepository */
     protected $tfaRepository;
 
-    /** @var Router $router */
+    /** @var RouterInterface $router */
     protected $router;
 
     /**
@@ -31,23 +30,13 @@ class RegistrationListener implements EventSubscriberInterface
      */
     public function __construct(
         Registry $doctrineRegistry,
-        Router $router
+        RouterInterface $router
     ) {
         $entityManager = $doctrineRegistry->getManager();
         $this->tfaU2FRepository = $entityManager->getRepository(EdgarEzTFAU2F::class);
         $this->tfaRepository = $entityManager->getRepository(EdgarEzTFA::class);
 
         $this->router = $router;
-    }
-
-    /**
-     * @return array
-     */
-    public static function getSubscribedEvents()
-    {
-        return [
-            'edgarez_tfa_u2f.register' => 'onRegister',
-        ];
     }
 
     /**

@@ -20,23 +20,22 @@ class EmailProvider extends AbstractProvider implements ProviderInterface
         $this->session->set('tfa_authcode', $authCode);
         $this->session->set('tfa_redirecturi', $request->getUri());
 
-        $siteaccessUrl = $this->getSiteaccessUrl($request);
-        $redirectUrl = $siteaccessUrl . '/_tfa/email/auth';
+        $redirectUrl = $this->router->generate('tfa_email_auth_form');
 
         return $redirectUrl;
     }
 
-    public function getIdentifier(): string
+    public function getIdentifier(): ?string
     {
         return 'email';
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->translator->trans('email.provider.name', [], 'edgareztfa');
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->translator->trans('email.provider.description', [], 'edgareztfa');
     }

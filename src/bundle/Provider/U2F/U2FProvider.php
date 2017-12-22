@@ -19,9 +19,6 @@ use Symfony\Component\Routing\RouterInterface;
 
 class U2FProvider extends AbstractProvider implements ProviderInterface
 {
-    /** @var RouterInterface $router */
-    protected $router;
-
     /** @var TokenStorage $tokenStorage */
     protected $tokenStorage;
 
@@ -36,14 +33,13 @@ class U2FProvider extends AbstractProvider implements ProviderInterface
      * @param Translator $translator
      */
     public function __construct(
-        RouterInterface $router,
         Session $session,
         Translator $translator,
         TokenStorage $tokenStorage,
+        RouterInterface $router,
         Registry $doctrineRegistry
     ) {
-        parent::__construct($session, $translator);
-        $this->router = $router;
+        parent::__construct($session, $translator, $router);
         $this->tokenStorage = $tokenStorage;
 
         $entityManager = $doctrineRegistry->getManager();
@@ -57,7 +53,7 @@ class U2FProvider extends AbstractProvider implements ProviderInterface
      * @param Request $request
      * @return string
      */
-    public function requestAuthCode(Request $request)
+    public function requestAuthCode(Request $request): string
     {
         $this->session->set('tfa_redirecturi', $request->getUri());
 
@@ -75,31 +71,31 @@ class U2FProvider extends AbstractProvider implements ProviderInterface
     public function register(
         EdgarEzTFARepository $tfaRepository,
         $userId, $provider
-    ) {
+    ): string {
         return $this->router->generate('tfa_u2f_register_form');
     }
 
-    public function getIdentifier()
+    public function getIdentifier(): ?string
     {
         return 'u2f';
     }
 
-    public function getName()
+    public function getName(): ?string
     {
         return $this->translator->trans('u2f.provider.name', [], 'edgareztfa');
     }
 
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->translator->trans('u2f.provider.description', [], 'edgareztfa');
     }
 
-    public function canBeMultiple()
+    public function canBeMultiple(): bool
     {
         return true;
     }
 
-    public function cancel()
+    public function cancel(): void
     {
         /** @var User $user */
         $user = $this->tokenStorage->getToken()->getUser();
@@ -114,7 +110,7 @@ class U2FProvider extends AbstractProvider implements ProviderInterface
         }
     }
 
-    public function purge(APIUser $user)
+    public function purge(APIUser $user): void
     {
         $this->tfaU2FRepository->purge($user);
     }

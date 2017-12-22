@@ -7,6 +7,7 @@ use Edgar\EzTFABundle\Entity\EdgarEzTFA;
 use Edgar\EzTFABundle\Entity\EdgarEzTFAU2F;
 use Edgar\EzTFA\Provider\ProviderInterface;
 use Edgar\EzTFABundle\Provider\U2F\Event\RegisterEvent;
+use Edgar\EzTFABundle\Provider\U2F\Form\Type\RegisterType;
 use Edgar\EzTFABundle\Provider\U2F\Security\Authenticator;
 use EzSystems\EzPlatformAdminUiBundle\Controller\Controller;
 use eZ\Publish\Core\MVC\ConfigResolverInterface;
@@ -16,6 +17,7 @@ use Edgar\EzTFA\Repository\EdgarEzTFAU2FRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\HttpFoundation\Session\Session;
+use u2flib_server\Registration;
 
 class U2FRegisterController extends Controller
 {
@@ -53,14 +55,12 @@ class U2FRegisterController extends Controller
         ConfigResolverInterface $configResolver,
         TokenStorage $tokenStorage,
         Authenticator $authenticator,
-        ProviderInterface $provider,
         Registry $doctrineRegistry,
         Session $session
     ) {
         $this->configResolver = $configResolver;
         $this->tokenStorage = $tokenStorage;
         $this->authenticator = $authenticator;
-        $this->provider = $provider;
         $this->session = $session;
 
         $entityManager = $doctrineRegistry->getManager();
@@ -76,14 +76,12 @@ class U2FRegisterController extends Controller
      */
     public function registerAction(Request $request)
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
         $actionUrl = $this->generateUrl('tfa_u2f_register_form');
 
         /** @var User $user */
         $user = $this->tokenStorage->getToken()->getUser();
 
-        $form = $this->createForm('Edgar\EzTFABundle\Provider\U2F\Form\Type\RegisterType');
+        $form = $this->createForm(RegisterType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +89,7 @@ class U2FRegisterController extends Controller
 
             $registerData = json_decode($data['_auth_code']);
             $registrationRequest = json_decode($this->session->get('u2f_registrationRequest'));
+            /** @var Registration $registration */
             $registration = $this->authenticator->doRegistration($registrationRequest[0], $registerData);
 
             $dispatcher = $this->get('event_dispatcher');
@@ -104,7 +103,6 @@ class U2FRegisterController extends Controller
         $this->session->set('u2f_registrationRequest', json_encode($registrationRequest));
 
         return $this->render('EdgarEzTFABundle:profile:tfa/u2f/register.html.twig', [
-            'layout' => $this->configResolver->getParameter('pagelayout'),
             'form' => $form->createView(),
             'registered' => $this->getRegistered(),
             'actionUrl' => $actionUrl,

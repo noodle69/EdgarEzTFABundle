@@ -8,21 +8,21 @@ use eZ\Publish\API\Repository\Values\User\User as APIUser;
 
 interface ProviderInterface
 {
-    public function getIdentifier();
+    public function getIdentifier(): ?string;
 
-    public function getName();
+    public function getName(): ?string;
 
-    public function getDescription();
+    public function getDescription(): ?string;
 
-    public function isAuthenticated();
+    public function isAuthenticated(): bool;
 
-    public function requestAuthCode(Request $request);
+    public function requestAuthCode(Request $request): ?string;
 
-    public function register(EdgarEzTFARepository $tfaRepository, $userId, $provider);
+    public function register(EdgarEzTFARepository $tfaRepository, $userId, $provider): string;
 
-    public function canBeMultiple();
+    public function canBeMultiple(): bool;
 
-    public function cancel();
+    public function cancel(): void;
 
-    public function purge(APIUser $user);
+    public function purge(APIUser $user): void;
 }

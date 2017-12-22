@@ -4,10 +4,11 @@ services:
         autoconfigure: true
         public: false
 
-    Edgar\EzTFABundle\Controller\:
-        resource: "../../Controller/*"
+    Edgar\EzTFABundle\Controller\TFAController:
         public: true
         tags: ['controller.service_arguments']
+        arguments:
+            $providersConfig: $providers;edgar_ez_tfa$
         calls:
             - [setContainer, ["@service_container"]]
             - [performAccessCheck, []]
@@ -16,7 +17,7 @@ services:
         public: true
         tags: ['controller.service_arguments']
         arguments:
-            $providers: $providers;smile_ez_tfa$
+            $providers: $providers;edgar_ez_tfa$
         calls:
             - [setContainer, ["@service_container"]]
             - [performAccessCheck, []]
@@ -25,7 +26,7 @@ services:
         public: true
         tags: ['controller.service_arguments']
         arguments:
-            $providers: $providers;smile_ez_tfa$
+            $providers: $providers;edgar_ez_tfa$
         calls:
             - [setContainer, ["@service_container"]]
             - [performAccessCheck, []]
@@ -39,11 +40,16 @@ services:
             - [setContainer, ["@service_container"]]
             - [performAccessCheck, []]
 
+    Edgar\EzTFABundle\Controller\U2FAuthController:
+        public: true
+        tags: ['controller.service_arguments']
+        calls:
+            - [setContainer, ["@service_container"]]
+            - [performAccessCheck, []]
+
     Edgar\EzTFABundle\Controller\U2FRegisterController:
         public: true
         tags: ['controller.service_arguments']
-        arguments:
-            $provider: "Edgar\\EzTFABundle\\Provider\\U2F\\U2FProvider"
         calls:
             - [setContainer, ["@service_container"]]
             - [performAccessCheck, []]

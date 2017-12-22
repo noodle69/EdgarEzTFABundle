@@ -5,6 +5,7 @@ namespace Edgar\EzTFA\Provider;
 use Edgar\EzTFA\Repository\EdgarEzTFARepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Translation\Translator;
 use eZ\Publish\API\Repository\Values\User\User as APIUser;
 
@@ -16,6 +17,9 @@ class AbstractProvider
     /** @var Translator $translator */
     protected $translator;
 
+    /** @var RouterInterface */
+    protected $router;
+
     /**
      * ProviderAbstract constructor.
      *
@@ -24,10 +28,12 @@ class AbstractProvider
      */
     public function __construct(
         Session $session,
-        Translator $translator
+        Translator $translator,
+        RouterInterface $router
     ) {
         $this->session = $session;
         $this->translator = $translator;
+        $this->router = $router;
     }
 
     /**
@@ -35,7 +41,7 @@ class AbstractProvider
      *
      * @return mixed
      */
-    public function isAuthenticated()
+    public function isAuthenticated(): bool
     {
         return $this->session->get('tfa_authenticated', false);
     }
@@ -46,7 +52,7 @@ class AbstractProvider
      * @param Request $request
      * @return string
      */
-    protected function getSiteaccessUrl(Request $request)
+    protected function getSiteaccessUrl(Request $request): string
     {
         $semanticPathinfo = $request->attributes->get('semanticPathinfo') ?: '/';
         $semanticPathinfo = rtrim($semanticPathinfo, '/');
@@ -58,50 +64,39 @@ class AbstractProvider
         return substr($uri, 0, -strlen($semanticPathinfo));
     }
 
-    /**
-     * Register for current user TFA Provider activated
-     *
-     * @param TFARepository $tfaRepository
-     * @param $userId
-     * @param $provider
-     * @return null
-     */
     public function register(
         EdgarEzTFARepository $tfaRepository,
         $userId, $provider
-    ) {
+    ): string {
         $tfaRepository->setProvider($userId, $provider);
-
-        return null;
+        return '';
     }
 
-    public function getIdentifier()
+    public function getIdentifier(): ?string
     {
         return null;
     }
 
-    public function getName()
+    public function getName(): ?string
     {
         return null;
     }
 
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return null;
     }
 
-    public function canBeMultiple()
+    public function canBeMultiple(): bool
     {
         return false;
     }
 
-    public function cancel()
+    public function cancel(): void
     {
-        return false;
     }
 
-    public function purge(APIUser $user)
+    public function purge(APIUser $user): void
     {
-        return false;
     }
 }

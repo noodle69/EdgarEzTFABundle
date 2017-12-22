@@ -12,6 +12,21 @@ services:
         tags:
           - { name: kernel.event_listener, event: edgar_ezuiprofile.menu_configure.profile_sidebar_left, method: onMenuConfigure }
 
+    Edgar\EzTFABundle\EventListener\TFAListener:
+        public: true
+        tags:
+          - { name: kernel.event_listener, event: kernel.controller, method: onRequest }
+
+    Edgar\EzTFA\Handler\AuthHandler:
+        public: true
+        arguments:
+            $providersConfig: $providers;edgar_ez_tfa$
+
+    Edgar\EzTFABundle\Provider\U2F\Event\RegistrationListener:
+        public: true
+        tags:
+          - { name: kernel.event_listener, event: edgarez_tfa_u2f.register, method: onRegister }
+
     Edgar\EzTFABundle\Provider\Email\EmailProvider:
         public: true
         tags:
@@ -26,3 +41,5 @@ services:
         public: true
         tags:
           - { name: edgar.tfa.provider, alias: u2f }
+
+    Edgar\EzTFABundle\Provider\U2F\Form\Constraints\AuthCodeValidator: ~
