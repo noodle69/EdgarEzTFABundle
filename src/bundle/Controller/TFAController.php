@@ -9,11 +9,13 @@ use Edgar\EzTFA\Repository\EdgarEzTFARepository;
 use Edgar\EzTFA\Handler\AuthHandler;
 use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use eZ\Publish\Core\MVC\Symfony\Security\User;
+use EzSystems\EzPlatformAdminUi\Notification\NotificationHandlerInterface;
 use EzSystems\EzPlatformAdminUiBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Translation\Translator;
 
 class TFAController extends Controller
 {
@@ -34,10 +36,22 @@ class TFAController extends Controller
 
     protected $providersConfig;
 
+    /** @var NotificationHandlerInterface  */
+    protected $notificationHandler;
+
+    /** @var Translator  */
+    protected $translator;
+
+    /** @var RouterInterface  */
+    protected $router;
+
     public function __construct(
         TokenStorage $tokenStorage,
         ConfigResolverInterface $configResolver,
         AuthHandler $authHandler,
+        NotificationHandlerInterface $notificationHandler,
+        Translator $translator,
+        RouterInterface $router,
         Registry $doctrineRegistry,
         $providersConfig
     ) {
@@ -48,9 +62,13 @@ class TFAController extends Controller
         $entityManager = $doctrineRegistry->getManager();
         $this->tfaRepository = $entityManager->getRepository(EdgarEzTFA::class);
         $this->providersConfig = $providersConfig;
+
+        $this->notificationHandler = $notificationHandler;
+        $this->translator = $translator;
+        $this->router = $router;
     }
 
-    public function menuAction(Request $request): Response
+    public function menuAction(): Response
     {
         /** @var User $user */
         $user = $this->tokenStorage->getToken()->getUser();
@@ -84,45 +102,48 @@ class TFAController extends Controller
         ]);
     }
 
-    public function clickAction(string $provider)
+    public function clickAction(string $provider): Response
     {
         /** @var User $user */
         $user = $this->tokenStorage->getToken()->getUser();
+        $apiUser = $user->getAPIUser();
 
-        if ($user && $user instanceof User) {
-            $apiUser = $user->getAPIUser();
-
-            /** @var EdgarEzTFA $userProvider */
-            $userProvider = $this->tfaRepository->findOneByUserId($apiUser->id);
-            if (
-                $userProvider &&
+        /** @var EdgarEzTFA $userProvider */
+        $userProvider = $this->tfaRepository->findOneByUserId($apiUser->id);
+        if (
+            $userProvider &&
+            (
+                $userProvider->getProvider() != $provider ||
                 (
-                    $userProvider->getProvider() != $provider ||
-                    (
-                        $userProvider->getProvider() == $provider &&
-                        !$this->providers[$userProvider->getProvider()]->canBeMultiple()
-                    )
+                    $userProvider->getProvider() == $provider &&
+                    !$this->providers[$userProvider->getProvider()]->canBeMultiple()
                 )
-            ) {
-                $this->providers[$userProvider->getProvider()]->purge($apiUser);
-                $this->tfaRepository->remove($userProvider);
-            }
-
-            /** @var ProviderInterface[] $tfaProviders */
-            $tfaProviders = $this->authHandler->getProviders();
-            $tfaProvider = $tfaProviders[$provider];
-            if ($redirect = $tfaProvider->register(
-                $this->tfaRepository,
-                $apiUser->id,
-                $provider
-            )) {
-                return $this->redirect($redirect);
-            }
-
-            return $this->render('EdgarEzTFABundle:profile:tfa/click.html.twig', [
-                'provider' => $provider
-            ]);
+            )
+        ) {
+            $this->providers[$userProvider->getProvider()]->purge($apiUser);
+            $this->tfaRepository->remove($userProvider);
         }
+
+        /** @var ProviderInterface[] $tfaProviders */
+        $tfaProviders = $this->authHandler->getProviders();
+        $tfaProvider = $tfaProviders[$provider];
+        if ($redirect = $tfaProvider->register(
+            $this->tfaRepository,
+            $apiUser->id,
+            $provider
+        )) {
+            return $this->redirect($redirect);
+        }
+
+        $this->notificationHandler->success(
+            $this->translator->trans(
+                'edgar.eztfa.provider.selected',
+                [],
+                'edgareztfa'
+            )
+        );
+
+        return new RedirectResponse($this->router->generate('edgar.eztfa.menu'));
     }
 
     public function cancelAction(string $provider): Response
@@ -141,15 +162,29 @@ class TFAController extends Controller
             }
         }
 
+        $this->notificationHandler->success(
+            $this->translator->trans(
+                'edgar.eztfa.provider.canceled',
+                [],
+                'edgareztfa'
+            )
+        );
+
         $redirectUrl = $this->generateUrl('edgar.eztfa.menu');
         return new RedirectResponse($redirectUrl);
     }
 
     public function registeredAction(string $provider): Response
     {
-        return $this->render('EdgarEzTFABundle:profile:tfa/click.html.twig', [
-            'provider' => $provider
-        ]);
+        $this->notificationHandler->success(
+            $this->translator->trans(
+                'edgar.eztfa.provider.registered',
+                [],
+                'edgareztfa'
+            )
+        );
+
+        return new RedirectResponse($this->router->generate('edgar.eztfa.menu'));
     }
 
     public function reinitializeAction(string $provider): Response

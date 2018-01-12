@@ -42,5 +42,3 @@ tfa_provider_sms:
 tfa_provider_u2f:
     resource: "@EdgarEzTFABundle/Resources/config/routing_u2f.yml"
     prefix: /u2f
-
-

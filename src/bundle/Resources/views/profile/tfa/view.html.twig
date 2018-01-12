@@ -9,8 +9,8 @@
 
 {% block profilecontent %}
     {% for providerId, provider in providers %}
+        <h4>{{ provider.title }}</h4>
         {% if provider.selected %}
-            {{ provider.title }}
             <p>
                 <a href="{{ path('tfa_reinitialize', {'provider': providerId}) }}">
                     {% trans %}
@@ -24,9 +24,8 @@
                 </a>
             </p>
         {% else %}
-            <a href="{{ path('tfa_click', {'provider': providerId}) }}">{{ provider.title }}</a>
+            <a href="{{ path('tfa_click', {'provider': providerId}) }}">Activate</a>
         {% endif %}
         <p>{{ provider.description }}</p>
     {% endfor %}
 {% endblock %}
-

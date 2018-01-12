@@ -30,12 +30,6 @@ class AuthHandler extends AbstractProvider implements ProviderInterface
 
     protected $providersConfig;
 
-    /**
-     * AuthHandler constructor.
-     *
-     * @param TokenStorage $tokenStorage
-     * @param Registry $doctrineRegistry
-     */
     public function __construct(
         Session $session,
         Translator $translator,

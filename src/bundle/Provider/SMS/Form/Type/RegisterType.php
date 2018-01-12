@@ -2,6 +2,7 @@
 
 namespace Edgar\EzTFABundle\Provider\SMS\Form\Type;
 
+use Edgar\EzTFABundle\Entity\EdgarEzTFASMS;
 use Misd\PhoneNumberBundle\Form\Type\PhoneNumberType;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber;
 use Symfony\Component\Form\AbstractType;
@@ -24,8 +25,7 @@ class RegisterType extends AbstractType
                 'required' => true,
                 'widget' => PhoneNumberType::WIDGET_COUNTRY_CHOICE,
                 'constraints' => [new PhoneNumber()]
-            ])
-            ->add('reegister', SubmitType::class, ['label' => 'sms.register']);
+            ]);
     }
 
     /**
@@ -57,7 +57,6 @@ class RegisterType extends AbstractType
     {
 
         $resolver->setDefaults([
-            'data_class' => 'Edgar\EzTFABundle\Entity\EdgarEzTFASMS',
             'translation_domain' => 'edgareztfa',
         ]);
     }

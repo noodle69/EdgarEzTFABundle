@@ -1,14 +1,23 @@
-{% extends layout %}
+{% extends "@EdgarEzTFA/profile/tfa/view.html.twig" %}
 
-{% trans_default_domain "edgareztfa" %}
+{% form_theme form '@EzPlatformAdminUi/form_fields.html.twig'  %}
 
-{% block content %}
+{% block profilecontent %}
+
     {{ form_start(form, {'action': actionUrl, "attr": {"class": "pure-form pure-form-aligned"}}) }}
-    {{ form_errors(form) }}
 
-    {{ form_label(form.phone) }}
-    {{ form_errors(form.phone) }}
-    {{ form_widget(form.phone) }}
+        <section class="container mt-4" id="u2fkeyname">
+            <div class="card ez-card">
+                <div class="card-body">
+                    {{ form_row(form.phone) }}
+                </div>
+            </div>
+
+            <span class="input-group-btn">
+                    {{ form_widget(form.register) }}
+                </span>
+        </section>
 
     {{ form_end(form) }}
+
 {% endblock %}

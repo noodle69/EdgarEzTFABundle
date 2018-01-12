@@ -42,15 +42,6 @@ class U2FRegisterController extends Controller
     /** @var EdgarEzTFARepository $tfaRepository */
     protected $tfaRepository;
 
-    /**
-     * RegisterController constructor.
-     *
-     * @param ConfigResolverInterface $configResolver
-     * @param TokenStorage $tokenStorage
-     * @param Authenticator $authenticator
-     * @param ProviderInterface $provider
-     * @param Session $session
-     */
     public function __construct(
         ConfigResolverInterface $configResolver,
         TokenStorage $tokenStorage,
@@ -68,12 +59,6 @@ class U2FRegisterController extends Controller
         $this->tfaRepository = $entityManager->getRepository(EdgarEzTFA::class);
     }
 
-    /**
-     * Ask user for key and key name to register new TFA U2F provider configuration
-     *
-     * @param Request $request
-     * @return mixed|\Symfony\Component\HttpFoundation\Response
-     */
     public function registerAction(Request $request)
     {
         $actionUrl = $this->generateUrl('tfa_u2f_register_form');

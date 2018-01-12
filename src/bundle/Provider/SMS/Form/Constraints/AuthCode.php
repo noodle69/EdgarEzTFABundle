@@ -8,6 +8,6 @@ class AuthCode extends Constraint
 {
     public function validatedBy()
     {
-        return 'edgareztfa.sms.auth.contraint';
+        return AuthCodeValidator::class;
     }
 }

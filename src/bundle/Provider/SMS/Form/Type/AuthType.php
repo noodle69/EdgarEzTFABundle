@@ -24,8 +24,7 @@ class AuthType extends AbstractType
                 'required' => true,
                 'label' => 'sms.code',
                 'constraints' => [new AuthCode()]
-            ])
-            ->add('send', SubmitType::class, ['label' => 'sms.send']);
+            ]);
     }
 
     /**

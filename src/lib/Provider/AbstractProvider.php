@@ -20,12 +20,6 @@ class AbstractProvider
     /** @var RouterInterface */
     protected $router;
 
-    /**
-     * ProviderAbstract constructor.
-     *
-     * @param Session $session
-     * @param Translator $translator
-     */
     public function __construct(
         Session $session,
         Translator $translator,

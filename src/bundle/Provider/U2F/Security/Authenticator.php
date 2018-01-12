@@ -7,6 +7,8 @@ use Edgar\EzTFABundle\Entity\EdgarEzTFAU2F;
 use Edgar\EzTFA\Repository\EdgarEzTFAU2FRepository;
 use eZ\Publish\Core\MVC\Symfony\Security\User;
 use Symfony\Component\HttpFoundation\RequestStack;
+use u2flib_server\Error;
+use u2flib_server\Registration;
 use u2flib_server\U2F;
 
 class Authenticator
@@ -36,40 +38,73 @@ class Authenticator
         $this->tfaU2FRepository = $entityManager->getRepository(EdgarEzTFAU2F::class);
     }
 
-    public function generateRegistrationRequest(User $user)
+    /**
+     * @param User $user
+     * @return array
+     * @throws Error
+     */
+    public function generateRegistrationRequest(User $user): array
     {
         $userU2Fs = $this->getUserKeys($user);
 
-        return $this->u2f->getRegisterData($userU2Fs);
+        try {
+            $registerData = $this->u2f->getRegisterData($userU2Fs);
+            return $registerData;
+        } catch (Error $e) {
+            throw $e;
+        }
     }
 
-    public function doRegistration($regRequest, $registration)
+    /**
+     * @param $regRequest
+     * @param $registration
+     * @return null|Registration
+     * @throws Error
+     */
+    public function doRegistration($regRequest, $registration): Registration
     {
-        return $this->u2f->doRegister($regRequest, $registration);
+        try {
+            $registration = $this->u2f->doRegister($regRequest, $registration);
+            return $registration;
+        } catch (Error $e) {
+            throw $e;
+        }
     }
 
     /**
      * @param User $user
-     * @param $request
+     * @param array $request
      * @param $authData
-     * @return \u2flib_server\Registration
+     * @return null|Registration
+     * @throws Error
      */
-    public function checkRequest(User $user, $request, $authData)
+    public function checkRequest(User $user, array $request, $authData)
     {
         $userU2Fs = $this->getUserKeys($user);
 
-        return $this->u2f->doAuthenticate($request, $userU2Fs, $authData);
+        try {
+            $registration = $this->u2f->doAuthenticate($request, $userU2Fs, $authData);
+            return $registration;
+        } catch (Error $e) {
+            throw $e;
+        }
     }
 
     /**
      * @param User $user
      * @return array
+     * @throws Error
      */
-    public function generateRequest(User $user)
+    public function generateRequest(User $user): array
     {
         $userU2Fs = $this->getUserKeys($user);
 
-        return $this->u2f->getAuthenticateData($userU2Fs);
+        try {
+            $authenticateData = $this->u2f->getAuthenticateData($userU2Fs);
+            return $authenticateData;
+        } catch (Error $e) {
+            throw $e;
+        }
     }
 
     /**

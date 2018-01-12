@@ -4,6 +4,9 @@ namespace Edgar\EzTFABundle\Controller;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Edgar\EzTFABundle\Entity\EdgarEzTFA;
+use Edgar\EzTFABundle\Provider\SMS\Form\Data\SMSRegisterData;
+use Edgar\EzTFABundle\Provider\SMS\Form\Factory\RegisterFormFactory;
+use Edgar\EzTFABundle\Provider\SMS\Form\SubmitHandler;
 use libphonenumber\PhoneNumber;
 use Edgar\EzTFABundle\Entity\EdgarEzTFASMS;
 use Edgar\EzTFA\Provider\ProviderInterface;
@@ -14,6 +17,7 @@ use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use Edgar\EzTFA\Repository\EdgarEzTFASMSRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class SMSRegisterController extends Controller
@@ -33,19 +37,19 @@ class SMSRegisterController extends Controller
     /** @var ProviderInterface $provider */
     protected $provider;
 
-    /**
-     * RegisterController constructor.
-     *
-     * @param ConfigResolverInterface $configResolver
-     * @param TokenStorage $tokenStorage
-     * @param Registry $doctrineRegistry
-     * @param ProviderInterface $provider
-     */
+    /** @var RegisterFormFactory  */
+    protected $registerFormFactory;
+
+    /** @var SubmitHandler  */
+    protected $submitHandler;
+
     public function __construct(
         ConfigResolverInterface $configResolver,
         TokenStorage $tokenStorage,
         Registry $doctrineRegistry,
-        ProviderInterface $provider
+        ProviderInterface $provider,
+        RegisterFormFactory $registerFormFactory,
+        SubmitHandler $submitHandler
     ) {
         $this->configResolver = $configResolver;
         $this->tokenStorage = $tokenStorage;
@@ -55,6 +59,8 @@ class SMSRegisterController extends Controller
         $this->tfaSMSRepository = $entityManager->getRepository(EdgarEzTFASMS::class);
 
         $this->provider = $provider;
+        $this->registerFormFactory = $registerFormFactory;
+        $this->submitHandler = $submitHandler;
     }
 
     /**
@@ -65,38 +71,43 @@ class SMSRegisterController extends Controller
      */
     public function registerAction(Request $request)
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
         $actionUrl = $this->generateUrl('tfa_sms_register_form');
-        $redirectUrl = $this->generateUrl('tfa_registered', ['provider' => $this->provider->getIdentifier()]);
 
-        $TFASMS = new EdgarEzTFASMS();
-        $form = $this->createForm('Edgar\EzTFABundle\Provider\SMS\Form\Type\RegisterType', $TFASMS);
-        $form->handleRequest($request);
+        $registerType = $this->registerFormFactory->configure(
+            new SMSRegisterData()
+        );
+        $registerType->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            /** @var PhoneNumber $phoneObject */
-            $phoneObject = $TFASMS->getPhone();
-            $phoneNumber = '+' . $phoneObject->getCountryCode() . $phoneObject->getNationalNumber();
+        if ($registerType->isSubmitted()) {
+            $result = $this->submitHandler->handle($registerType, function (SMSRegisterData $data) use ($registerType) {
+                /** @var PhoneNumber $phoneObject */
+                $phoneObject = $data->getPhoneNumber();
+                $phoneNumber = '+' . $phoneObject->getCountryCode() . $phoneObject->getNationalNumber();
 
-            /** @var User $user */
-            $user = $this->tokenStorage->getToken()->getUser();
-            $apiUser = $user->getAPIUser();
+                /** @var User $user */
+                $user = $this->tokenStorage->getToken()->getUser();
+                $apiUser = $user->getAPIUser();
 
-            /** @var EdgarEzTFASMS $userSMS */
-            $userSMS = $this->tfaSMSRepository->findOneByUserId($apiUser->id);
-            if ($userSMS) {
-                $this->tfaSMSRepository->remove($userSMS);
+                /** @var EdgarEzTFASMS $userSMS */
+                $userSMS = $this->tfaSMSRepository->findOneByUserId($apiUser->id);
+                if ($userSMS) {
+                    $this->tfaSMSRepository->remove($userSMS);
+                }
+                $this->tfaSMSRepository->savePhone($apiUser->id, $phoneNumber);
+                $this->tfaRepository->setProvider($apiUser->id, $this->provider->getIdentifier());
+
+                $redirectUrl = $this->generateUrl('tfa_registered', ['provider' => $this->provider->getIdentifier()]);
+
+                return new RedirectResponse($redirectUrl);
+            });
+
+            if ($result instanceof Response) {
+                return $result;
             }
-            $this->tfaSMSRepository->savePhone($apiUser->id, $phoneNumber);
-            $this->tfaRepository->setProvider($apiUser->id, $this->provider->getIdentifier());
-
-            return new RedirectResponse($redirectUrl);
         }
 
         return $this->render('EdgarEzTFABundle:profile:tfa/sms/register.html.twig', [
-            'layout' => $this->configResolver->getParameter('pagelayout'),
-            'form' => $form->createView(),
+            'form' => $registerType->createView(),
             'actionUrl' => $actionUrl
         ]);
     }

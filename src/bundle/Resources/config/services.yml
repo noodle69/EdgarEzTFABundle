@@ -43,3 +43,15 @@ services:
           - { name: edgar.tfa.provider, alias: u2f }
 
     Edgar\EzTFABundle\Provider\U2F\Form\Constraints\AuthCodeValidator: ~
+
+    Edgar\EzTFABundle\Provider\Email\Form\Constraints\AuthCodeValidator:
+        arguments:
+            - "@session"
+        tags:
+            - { name: validator.constraint_validator, alias: edgareztfa.email.auth.contraint }
+
+    Edgar\EzTFABundle\Provider\SMS\Form\Constraints\AuthCodeValidator:
+        arguments:
+            - "@session"
+        tags:
+            - { name: validator.constraint_validator, alias: edgareztfa.sms.auth.contraint }

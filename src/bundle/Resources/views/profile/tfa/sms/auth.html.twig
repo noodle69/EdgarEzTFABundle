@@ -1,20 +1,24 @@
-{% extends layout %}
+{% extends "@EdgarEzTFA/profile/tfa/base_login.html.twig" %}
 
-{% trans_default_domain "edgareztfa" %}
-
-{% block content %}
+{% block auth_form %}
     <p>
         {% trans %}
         Enter your Two Factor Authentication code you have received by sms
         {% endtrans %}
     </p>
 
-    {{ form_start(form, {'action': actionUrl, "attr": {"class": "pure-form pure-form-aligned"}}) }}
-    {{ form_errors(form) }}
+    {{ form_start(form) }}
+        <fieldset>
+            <div class="form-group{% if error %} has-error{% endif %}">
+                {{ form_label(form.code) }}
+                {{ form_widget(form.code, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.code) }}
+            </div>
 
-    {{ form_label(form.code) }}
-    {{ form_errors(form.code) }}
-    {{ form_widget(form.code) }}
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token("authenticate") }}" />
 
+            <button type="submit" class="btn btn-primary ez-btn ez-btn--login">{{ 'authentication.submit'|trans|desc('Login') }}</button>
+        </fieldset>
     {{ form_end(form) }}
+
 {% endblock %}

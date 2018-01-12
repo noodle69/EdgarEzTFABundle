@@ -1,20 +1,31 @@
 {% extends "@EdgarEzTFA/profile/tfa/view.html.twig" %}
 
-{% block profilecontent %}
-    {{ form_start(form, {'action': actionUrl, "attr": {"data-request": registrationRequest|raw,"data-action": "reg", "id": "u2fForm", "class": "pure-form pure-form-aligned"}}) }}
-        <div id="u2fkeyname">
-            {{ form_widget(form.keyName, { 'id': 'keyName' }) }}
-            {{ form_widget(form._auth_code, { 'id': '_auth_code' }) }}
-            {{ form_widget(form.register) }}
+{% form_theme form '@EzPlatformAdminUi/form_fields.html.twig'  %}
 
-            <ul>
-                {% for registeredKey in registered %}
-                    <li>
-                        {{ registeredKey.keyName }} <a href="{{ path('tfa_u2f_remove', {id: registeredKey.id}) }}">{{ 'Remove'|trans }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
+{% block profilecontent %}
+
+    {{ form_start(form, {'action': actionUrl, "attr": {"data-request": registrationRequest|raw,"data-action": "reg", "id": "u2fForm", "class": "pure-form pure-form-aligned"}}) }}
+
+        <section class="container mt-4" id="u2fkeyname">
+            <div class="card ez-card">
+                <div class="card-body">
+                    {{ form_row(form.keyName, { 'id': 'keyName' }) }}
+                    {{ form_widget(form._auth_code, { 'id': '_auth_code' }) }}
+                </div>
+            </div>
+
+            <span class="input-group-btn">
+                {{ form_widget(form.register) }}
+            </span>
+        </section>
+
+        <ul>
+            {% for registeredKey in registered %}
+                <li>
+                    {{ registeredKey.keyName }} <a href="{{ path('tfa_u2f_remove', {id: registeredKey.id}) }}">{{ 'Remove'|trans }}</a>
+                </li>
+            {% endfor %}
+        </ul>
 
         <div id="u2fpressbutton" style="display: none;">
             {% trans %}
@@ -23,7 +34,9 @@
         </div>
         {{ form_widget(form._auth_code, { 'id': '_auth_code' }) }}
         <div id="u2fError" style="display: none;"></div>
+
     {{ form_end(form) }}
+
 {% endblock %}
 
 {% block javascripts %}

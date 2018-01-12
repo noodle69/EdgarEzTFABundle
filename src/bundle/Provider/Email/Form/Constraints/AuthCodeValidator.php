@@ -26,7 +26,6 @@ class AuthCodeValidator extends ConstraintValidator
 
         if ($code !== $TFACode) {
             $this->context->addViolation('Authentication code do not match');
-
             return;
         }
     }

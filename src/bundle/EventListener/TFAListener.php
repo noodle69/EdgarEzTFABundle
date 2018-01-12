@@ -50,7 +50,7 @@ class TFAListener
             return;
         }
 
-        if (strpos($request->getUri(), '/tfa/') !== false) {
+        if (strpos($request->getUri(), '/_tfa/') !== false) {
             return;
         }
 

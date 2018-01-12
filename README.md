@@ -18,4 +18,3 @@ This bundle offer
 [Extend](docs/EXTEND.md)
 
 [Usage](docs/USAGE.md)
-

@@ -2,11 +2,16 @@
 
 namespace Edgar\EzTFABundle\Controller;
 
+use Edgar\EzTFABundle\Provider\Email\Form\Data\EmailData;
+use Edgar\EzTFABundle\Provider\Email\Form\Factory\FormFactory;
+use Edgar\EzTFABundle\Provider\Email\Form\SubmitHandler;
+use Edgar\EzTFABundle\Provider\Email\Form\Type\AuthType;
 use EzSystems\EzPlatformAdminUiBundle\Controller\Controller;
 use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use eZ\Publish\Core\MVC\Symfony\Security\User;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -31,23 +36,21 @@ class EmailAuthController extends Controller
     /** @var Session $session */
     protected $session;
 
-    /**
-     * AuthController constructor.
-     *
-     * @param TokenStorage $tokenStorage
-     * @param ConfigResolverInterface $configResolver
-     * @param \Swift_Mailer $mailer
-     * @param TranslatorInterface $translator
-     * @param array $providers
-     * @param Session $session
-     */
+    /** @var FormFactory  */
+    protected $formFactory;
+
+    /** @var SubmitHandler  */
+    protected $submitHandler;
+
     public function __construct(
         TokenStorage $tokenStorage,
         ConfigResolverInterface $configResolver,
         \Swift_Mailer $mailer,
         TranslatorInterface $translator,
         array $providers,
-        Session $session
+        Session $session,
+        FormFactory $formFactory,
+        SubmitHandler $submitHandler
     ) {
         $this->tokenStorage = $tokenStorage;
         $this->configResolver = $configResolver;
@@ -56,6 +59,8 @@ class EmailAuthController extends Controller
         $this->providers = $providers;
 
         $this->session = $session;
+        $this->formFactory = $formFactory;
+        $this->submitHandler = $submitHandler;
     }
 
     /**
@@ -84,20 +89,24 @@ class EmailAuthController extends Controller
         $this->mailer->send($message);
     }
 
-    /**
-     * Ask for TFA code authentication
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function authAction(Request $request)
+    public function authAction(Request $request): Response
     {
         $actionUrl = $this->generateUrl('tfa_email_auth_form');
 
-        $form = $this->createForm('Edgar\EzTFABundle\Provider\Email\Form\Type\AuthType');
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->session->set('tfa_authenticated', true);
-            return new RedirectResponse($this->session->get('tfa_redirecturi'));
+        $authType = $this->formFactory->configure(
+            new EmailData()
+        );
+        $authType->handleRequest($request);
+
+        if ($authType->isSubmitted()) {
+            $result = $this->submitHandler->handle($authType, function (EmailData $data) use ($authType) {
+                $this->session->set('tfa_authenticated', true);
+                return new RedirectResponse($this->session->get('tfa_redirecturi'));
+            });
+
+            if ($result instanceof Response) {
+                return $result;
+            }
         }
 
         $code = $this->session->get('tfa_authcode', false);
@@ -116,8 +125,10 @@ class EmailAuthController extends Controller
 
         return $this->render('EdgarEzTFABundle:profile:tfa/email/auth.html.twig', [
             'layout' => $this->configResolver->getParameter('pagelayout'),
-            'form' => $form->createView(),
-            'actionUrl' => $actionUrl
+            'form' => $authType->createView(),
+            'actionUrl' => $actionUrl,
+            'code' => $code,
+            'error' => $authType->getErrors(),
         ]);
     }
 }
