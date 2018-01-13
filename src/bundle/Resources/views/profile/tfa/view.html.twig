@@ -8,24 +8,37 @@
 {% endblock %}
 
 {% block profilecontent %}
-    {% for providerId, provider in providers %}
-        <h4>{{ provider.title }}</h4>
-        {% if provider.selected %}
-            <p>
-                <a href="{{ path('tfa_reinitialize', {'provider': providerId}) }}">
-                    {% trans %}
-                        Reinitialize
-                    {% endtrans %}
-                </a>
-                <a href="{{ path('tfa_cancel', {'provider': providerId}) }}">
-                    {% trans %}
-                        Cacncel
-                    {% endtrans %}
-                </a>
-            </p>
-        {% else %}
-            <a href="{{ path('tfa_click', {'provider': providerId}) }}">Activate</a>
-        {% endif %}
-        <p>{{ provider.description }}</p>
-    {% endfor %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>{{ 'edgarezuitfa.th.provider'|trans|desc('Provider') }}</th>
+            <th>{{ 'edgarezuitfa.th.description'|trans|desc('Description') }}</th>
+            <th>{{ 'edgarezuitfa.th.actions'|trans|desc('Actions') }}</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for providerId, provider in providers %}
+                <tr>
+                    <td>{{ provider.title }}</td>
+                    <td>{{ provider.description }}</td>
+                    <td>
+                        {% if provider.selected %}
+                            <a href="{{ path('tfa_reinitialize', {'provider': providerId}) }}">
+                                {% trans %}
+                                    Reinitialize
+                                {% endtrans %}
+                            </a>
+                            <a href="{{ path('tfa_cancel', {'provider': providerId}) }}">
+                                {% trans %}
+                                    Cacncel
+                                {% endtrans %}
+                            </a>
+                        {% else %}
+                            <a href="{{ path('tfa_click', {'provider': providerId}) }}">Activate</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

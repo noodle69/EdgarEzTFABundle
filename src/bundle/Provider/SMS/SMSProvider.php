@@ -19,13 +19,6 @@ class SMSProvider extends AbstractProvider implements ProviderInterface
     /** @var EdgarEzTFASMSRepository $tfaSMSRepository */
     protected $tfaSMSRepository;
 
-    /**
-     * SMSProvider constructor.
-     *
-     * @param Router $router
-     * @param Session $session
-     * @param Translator $translator
-     */
     public function __construct(
         Session $session,
         Translator $translator,

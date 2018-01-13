@@ -7,6 +7,7 @@ use Edgar\EzTFABundle\Entity\EdgarEzTFA;
 use Edgar\EzTFABundle\Provider\SMS\Form\Data\SMSRegisterData;
 use Edgar\EzTFABundle\Provider\SMS\Form\Factory\RegisterFormFactory;
 use Edgar\EzTFABundle\Provider\SMS\Form\SubmitHandler;
+use Edgar\EzTFABundle\Provider\SMS\Form\Type\RegisterType;
 use libphonenumber\PhoneNumber;
 use Edgar\EzTFABundle\Entity\EdgarEzTFASMS;
 use Edgar\EzTFA\Provider\ProviderInterface;
@@ -80,8 +81,8 @@ class SMSRegisterController extends Controller
 
         if ($registerType->isSubmitted()) {
             $result = $this->submitHandler->handle($registerType, function (SMSRegisterData $data) use ($registerType) {
-                /** @var PhoneNumber $phoneObject */
-                $phoneObject = $data->getPhoneNumber();
+                $redirectUrl = $this->generateUrl('tfa_registered', ['provider' => $this->provider->getIdentifier()]);
+                $phoneObject = $data->getPhone();
                 $phoneNumber = '+' . $phoneObject->getCountryCode() . $phoneObject->getNationalNumber();
 
                 /** @var User $user */
@@ -95,8 +96,6 @@ class SMSRegisterController extends Controller
                 }
                 $this->tfaSMSRepository->savePhone($apiUser->id, $phoneNumber);
                 $this->tfaRepository->setProvider($apiUser->id, $this->provider->getIdentifier());
-
-                $redirectUrl = $this->generateUrl('tfa_registered', ['provider' => $this->provider->getIdentifier()]);
 
                 return new RedirectResponse($redirectUrl);
             });

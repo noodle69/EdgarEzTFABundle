@@ -23,9 +23,10 @@ class RegisterType extends AbstractType
         $builder
             ->add('phone', PhoneNumberType::class, [
                 'required' => true,
-                'widget' => PhoneNumberType::WIDGET_COUNTRY_CHOICE,
+                'widget' => PhoneNumberType::WIDGET_SINGLE_TEXT,
                 'constraints' => [new PhoneNumber()]
-            ]);
+            ])
+            ->add('register', SubmitType::class, ['attr' => ['label' => 'sms.register']]);
     }
 
     /**

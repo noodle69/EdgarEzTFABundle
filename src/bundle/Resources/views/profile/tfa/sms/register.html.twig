@@ -1,6 +1,6 @@
 {% extends "@EdgarEzTFA/profile/tfa/view.html.twig" %}
 
-{% form_theme form '@EzPlatformAdminUi/form_fields.html.twig'  %}
+{% form_theme form '@EzPlatformAdminUi/content/form_fields.html.twig'  %}
 
 {% block profilecontent %}
 
@@ -14,8 +14,8 @@
             </div>
 
             <span class="input-group-btn">
-                    {{ form_widget(form.register) }}
-                </span>
+                {{ form_widget(form.register) }}
+            </span>
         </section>
 
     {{ form_end(form) }}

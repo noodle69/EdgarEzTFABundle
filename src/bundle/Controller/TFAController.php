@@ -132,7 +132,7 @@ class TFAController extends Controller
             $apiUser->id,
             $provider
         )) {
-            return $this->redirect($redirect);
+            return new RedirectResponse($redirect);
         }
 
         $this->notificationHandler->success(
@@ -143,7 +143,7 @@ class TFAController extends Controller
             )
         );
 
-        return new RedirectResponse($this->router->generate('edgar.eztfa.menu'));
+        return new RedirectResponse($this->router->generate('edgar.eztfa.menu'), 301);
     }
 
     public function cancelAction(string $provider): Response
