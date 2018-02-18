@@ -10,7 +10,7 @@ services:
     Edgar\EzTFABundle\EventListener\ConfigureMenuListener:
         public: true
         tags:
-          - { name: kernel.event_listener, event: edgar_ezuiprofile.menu_configure.profile_sidebar_left, method: onMenuConfigure }
+          - { name: kernel.event_listener, event: edgar_ezuiprofile.menu_configure.profile_security_sidebar_right, method: onMenuConfigure }
 
     Edgar\EzTFABundle\EventListener\TFAListener:
         public: true

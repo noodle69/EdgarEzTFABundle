@@ -18,8 +18,7 @@ class ConfigureMenuListener implements TranslationContainerInterface
     {
         $menu = $event->getMenu();
 
-        $cronsMenu = $menu->getChild(LeftSidebarBuilder::ITEM__PASSWORD);
-        $cronsMenu->getParent()->addChild(
+        $menu->addChild(
             self::ITEM_PROFILE_TFA,
             [
                 'route' => 'edgar.eztfa.menu',

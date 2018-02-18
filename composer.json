@@ -22,7 +22,7 @@
     "php": ">=7.1",
     "ezsystems/ezpublish-kernel": "^7.0@dev",
     "ezsystems/ezplatform-admin-ui": "^1.0@dev",
-    "edgar/ez-uiprofile-bundle": "~1.0",
+    "edgar/ez-uiprofile-bundle": "~2.0",
     "ovh/ovh": "~2.0",
     "doctrine/orm": "~2.5",
     "yubico/u2flib-server": "~1.0",
