@@ -20,13 +20,13 @@
   },
   "require": {
     "php": ">=7.1",
-    "ezsystems/ezpublish-kernel": "^7.0@dev",
-    "ezsystems/ezplatform-admin-ui": "^1.0@dev",
+    "ezsystems/ezpublish-kernel": "^7.1",
+    "ezsystems/ezplatform-admin-ui": "^1.1",
     "edgar/ez-uiprofile-bundle": "~2.0",
     "ovh/ovh": "~2.0",
-    "doctrine/orm": "~2.5",
+    "doctrine/orm": "~2.6",
     "yubico/u2flib-server": "~1.0",
-    "misd/phone-number-bundle": "~1.2"
+    "misd/phone-number-bundle": "~1.3"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "~2.7.1",
