@@ -10,6 +10,7 @@ use JMS\TranslationBundle\Translation\TranslationContainerInterface;
 class ConfigureMenuListener implements TranslationContainerInterface
 {
     const ITEM_PROFILE_TFA = 'user__content__tfa';
+    const ITEM_PROFILE_TFA_DESCRIPTION = 'user__content__tfa_description';
 
     /**
      * @param ConfigureMenuEvent $event
@@ -22,7 +23,10 @@ class ConfigureMenuListener implements TranslationContainerInterface
             self::ITEM_PROFILE_TFA,
             [
                 'route' => 'edgar.eztfa.menu',
-                'extras' => ['icon' => 'lock'],
+                'extras' => [
+                    'icon' => 'lock',
+                    'description' => self::ITEM_PROFILE_TFA_DESCRIPTION,
+                ],
             ]
         );
     }
@@ -34,6 +38,9 @@ class ConfigureMenuListener implements TranslationContainerInterface
     {
         return [
             (new Message(self::ITEM_PROFILE_TFA, 'messages'))->setDesc('Two Factor Authentication'),
+            (new Message(self::ITEM_PROFILE_TFA_DESCRIPTION, 'messages'))->setDesc(
+                'Manage Two Factor Authentication with Email/SMS or Yubico Key'
+            ),
         ];
     }
 }

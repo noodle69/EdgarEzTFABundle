@@ -9,7 +9,7 @@
       <trans-unit id="d03c2fd16b16ea147b67dde6f7fa623fc936734a" resname="                                    Cacncel&#10;                                ">
         <source xml:space="preserve">                                    Cacncel
                                 </source>
-        <target xml:space="preserve" state="new">                                    Cacncel
+        <target xml:space="preserve">                                    Cacncel
                                 </target>
         <note>key:                                     Cacncel
                                 </note>
@@ -17,14 +17,14 @@
       <trans-unit id="dbe6eb35fa5542cb7d592c04ac164bd56378560b" resname="                                    Reinitialize&#10;                                ">
         <source xml:space="preserve">                                    Reinitialize
                                 </source>
-        <target xml:space="preserve" state="new">                                    Reinitialize
+        <target xml:space="preserve">                                    Reinitialize
                                 </target>
         <note>key:                                     Reinitialize
                                 </note>
       </trans-unit>
       <trans-unit id="da7034b1e9dfcae3be012f79d9b1e36f8906ac9a" resname="Two Factor Authentication">
         <source>Two Factor Authentication</source>
-        <target state="new">Two Factor Authentication</target>
+        <target>Two Factor Authentication</target>
         <note>key: Two Factor Authentication</note>
       </trans-unit>
       <trans-unit id="2f7b1a60a74ae662089312a20e90169cabf320c9" resname="Two Factor Authentication code">
@@ -41,87 +41,87 @@
 </note>
       </trans-unit>
       <trans-unit id="b6edc1193a78ebd444061b4ca2817e15c56028ac" resname="edgar.eztfa.provider.canceled">
-        <source>edgar.eztfa.provider.canceled</source>
-        <target state="new">Two Factor Authentication provider canceled</target>
+        <source>Two Factor Authentication provider canceled</source>
+        <target>Two Factor Authentication provider canceled</target>
         <note>key: edgar.eztfa.provider.canceled</note>
       </trans-unit>
       <trans-unit id="1608178d91117960425af3e8c4332bf452ddef4e" resname="edgar.eztfa.provider.registered">
-        <source>edgar.eztfa.provider.registered</source>
-        <target state="new">New Two Factor Authentication registered</target>
+        <source>New Two Factor Authentication registered</source>
+        <target>New Two Factor Authentication registered</target>
         <note>key: edgar.eztfa.provider.registered</note>
       </trans-unit>
       <trans-unit id="af749eeaa38cb1e9e1f043303c31a014d915616f" resname="edgar.eztfa.provider.selected">
-        <source>edgar.eztfa.provider.selected</source>
-        <target state="new">New Two Factor Authentication selected</target>
+        <source>New Two Factor Authentication selected</source>
+        <target>New Two Factor Authentication selected</target>
         <note>key: edgar.eztfa.provider.selected</note>
       </trans-unit>
       <trans-unit id="425b6bdf3d1ed16fad71dd133b8510fa7cd5815a" resname="edgarezuitfa.th.actions">
         <source>Actions</source>
-        <target state="new">Actions</target>
+        <target>Actions</target>
         <note>key: edgarezuitfa.th.actions</note>
       </trans-unit>
       <trans-unit id="eae28fb63688b93d82c136c9ea7e83b4b810a35a" resname="edgarezuitfa.th.description">
         <source>Description</source>
-        <target state="new">Description</target>
+        <target>Description</target>
         <note>key: edgarezuitfa.th.description</note>
       </trans-unit>
       <trans-unit id="5576afaf3923c6ddc1bd40c400e5aadf82e746a1" resname="edgarezuitfa.th.provider">
         <source>Provider</source>
-        <target state="new">Provider</target>
+        <target>Provider</target>
         <note>key: edgarezuitfa.th.provider</note>
       </trans-unit>
       <trans-unit id="901ed25d86dfc948cf53418d3578022a11cd2f88" resname="email.code">
-        <source>email.code</source>
+        <source>Code</source>
         <target>Code</target>
         <note>key: email.code</note>
       </trans-unit>
       <trans-unit id="52e0939fd9d2f4e3a3f6dc83947c31b189438971" resname="email.provider.description">
-        <source>email.provider.description</source>
+        <source>Use your email account address to receive two factor authentication by mail</source>
         <target>Use your email account address to receive two factor authentication by mail</target>
         <note>key: email.provider.description</note>
       </trans-unit>
       <trans-unit id="0b610fc73dd9b736102da975e87829eac6b093ad" resname="email.provider.name">
-        <source>email.provider.name</source>
+        <source>Email</source>
         <target>Email</target>
         <note>key: email.provider.name</note>
       </trans-unit>
       <trans-unit id="f2b14b0a5d8e2adb08115a36466243fb786724bc" resname="sms.code">
-        <source>sms.code</source>
+        <source>Code</source>
         <target>Code</target>
         <note>key: sms.code</note>
       </trans-unit>
       <trans-unit id="55b26e82e64128979f7a84970ecb9b1dace7f55b" resname="sms.provider.description">
-        <source>sms.provider.description</source>
+        <source>Register your mobile phone number to receive two factor authentication by SMS</source>
         <target>Register your mobile phone number to receive two factor authentication by SMS</target>
         <note>key: sms.provider.description</note>
       </trans-unit>
       <trans-unit id="1009f82766403a7a28409e5e26ef33d6907085a3" resname="sms.provider.name">
-        <source>sms.provider.name</source>
+        <source>SMS</source>
         <target>SMS</target>
         <note>key: sms.provider.name</note>
       </trans-unit>
       <trans-unit id="525a68d8fbcf205a3052d4b80ff8cf86bc58e672" resname="sms.register">
-        <source>sms.register</source>
+        <source>Register</source>
         <target>Register</target>
         <note>key: sms.register</note>
       </trans-unit>
       <trans-unit id="2808eb9f34f272c1a68968ea7db6d066a57a32cd" resname="u2f.keyname">
-        <source>u2f.keyname</source>
+        <source>Key name</source>
         <target>Key name</target>
         <note>key: u2f.keyname</note>
       </trans-unit>
       <trans-unit id="0b6f7e59566e41a3fb56dbba92cf569b21249356" resname="u2f.provider.description">
-        <source>u2f.provider.description</source>
+        <source>Register Yubico key(s) to use for Two Factor Authentication</source>
         <target>Register Yubico key(s) to use for Two Factor Authentication</target>
         <note>key: u2f.provider.description</note>
       </trans-unit>
       <trans-unit id="cf709426e3bc899c2ba8c35572e5dd22d441bbe8" resname="u2f.provider.name">
-        <source>u2f.provider.name</source>
+        <source>U2F</source>
         <target>U2F</target>
         <note>key: u2f.provider.name</note>
       </trans-unit>
       <trans-unit id="f583326c6a84bc628223245a7fe1de65f2c4be5f" resname="u2f.register">
-        <source>u2f.register</source>
+        <source>Register</source>
         <target>Register</target>
         <note>key: u2f.register</note>
       </trans-unit>

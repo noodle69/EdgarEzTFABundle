@@ -51,6 +51,7 @@ Add to your global configuration app/config/routing.yml
 ```yaml
 edgar.ezuiprofile:
     resource: '@EdgarEzUIProfileBundle/Resources/config/routing.yml'
+    prefix:   /_profile
     defaults:
         siteaccess_group_whitelist: 'admin_group'
         

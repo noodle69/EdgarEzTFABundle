@@ -9,7 +9,7 @@
       <trans-unit id="b0386b53643cd03ca1b46b886a40d3c8a16670a4" resname="                Press Button on token&#10;            ">
         <source xml:space="preserve">                Press Button on token
             </source>
-        <target xml:space="preserve" state="new">                Press Button on token
+        <target xml:space="preserve">                Press Button on token
             </target>
         <note>key:                 Press Button on token
             </note>
@@ -17,7 +17,7 @@
       <trans-unit id="b415a5be533f9f5270243deedc3199ec6919b3b3" resname="            Press Button on token&#10;            ">
         <source xml:space="preserve">            Press Button on token
             </source>
-        <target xml:space="preserve" state="new">            Press Button on token
+        <target xml:space="preserve">            Press Button on token
             </target>
         <note>key:             Press Button on token
             </note>
@@ -25,7 +25,7 @@
       <trans-unit id="f7b37f155f14e09f004d813750f5f222f07cae24" resname="        Enter your Two Factor Authentication code you have received by mail&#10;        ">
         <source xml:space="preserve">        Enter your Two Factor Authentication code you have received by mail
         </source>
-        <target xml:space="preserve" state="new">        Enter your Two Factor Authentication code you have received by mail
+        <target xml:space="preserve">        Enter your Two Factor Authentication code you have received by mail
         </target>
         <note>key:         Enter your Two Factor Authentication code you have received by mail
         </note>
@@ -33,25 +33,30 @@
       <trans-unit id="4e90af22237e2e3ad33b87a31bba7ebd57692a41" resname="        Enter your Two Factor Authentication code you have received by sms&#10;        ">
         <source xml:space="preserve">        Enter your Two Factor Authentication code you have received by sms
         </source>
-        <target xml:space="preserve" state="new">        Enter your Two Factor Authentication code you have received by sms
+        <target xml:space="preserve">        Enter your Two Factor Authentication code you have received by sms
         </target>
         <note>key:         Enter your Two Factor Authentication code you have received by sms
         </note>
       </trans-unit>
       <trans-unit id="e963907dac5cd5c017869b4c96c18021c9bd058b" resname="Remove">
         <source>Remove</source>
-        <target state="new">Remove</target>
+        <target>Remove</target>
         <note>key: Remove</note>
       </trans-unit>
       <trans-unit id="8785f4abdfdf72fe9001fe0553c6e3a582cfcc08" resname="authentication.submit">
         <source>Login</source>
-        <target state="new">Login</target>
+        <target>Login</target>
         <note>key: authentication.submit</note>
       </trans-unit>
       <trans-unit id="8f1b08bb8d76ab4745de357e612e38603c63fdc4" resname="user__content__tfa">
         <source>Two Factor Authentication</source>
         <target>Two Factor Authentication</target>
         <note>key: user__content__tfa</note>
+      </trans-unit>
+      <trans-unit id="851618eedfdd18af12d4034caa240f4efa2bb9f4" resname="user__content__tfa_description">
+        <source>Manage Two Factor Authentication with Email/SMS or Yubico Key</source>
+        <target state="new">Manage Two Factor Authentication with Email/SMS or Yubico Key</target>
+        <note>key: user__content__tfa_description</note>
       </trans-unit>
     </body>
   </file>
